@@ -1,0 +1,30 @@
+{
+  "name": "grab-site-info",
+  "version": "0.0.1",
+  "description": "Grabs specific information about loading GTM and analytic scripts (blocked by Yett) from production sites",
+  "main": "index.js",
+  "scripts": {
+    "build": "rimraf ./build && tsc",
+    "start": "npm run build && node build/index.js",
+    "start:dev": "nodemon"
+  },
+  "author": "stokarev@gmail.com",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/mongodb": "^4.0.7",
+    "@types/node": "^16.10.5",
+    "@types/webpack": "^5.28.0",
+    "clean-webpack-plugin": "^4.0.0",
+    "copy-webpack-plugin": "^9.0.1",
+    "dotenv": "^10.0.0",
+    "mongodb": "^4.1.3",
+    "nodemon": "^2.0.13",
+    "playwright": "^1.15.2",
+    "rimraf": "^3.0.2",
+    "ts-loader": "^9.2.6",
+    "ts-node": "^10.3.0",
+    "typescript": "^4.4.4",
+    "webpack": "^5.58.1",
+    "wepack-cli": "0.0.1-security"
+  }
+}
