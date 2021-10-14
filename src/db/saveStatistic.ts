@@ -2,11 +2,10 @@ import { db } from "./mongo";
 import { Collection } from "mongodb";
 
 export const addStatisticRecord = async (
-  url: URL,
+  hostname: string,
   browser: string,
   device: string,
   withInteraction: boolean, // with menu navigate action after navigation menu ready
-  tsStart: number, // ts start testing track
   succeeded: boolean, // successfully finished
   tsEnvReady?: number, // ts evironment loaded (browser, context, etc)
   tsPageReady?: number, // ts page has loaded state (load event fired)
@@ -19,16 +18,13 @@ export const addStatisticRecord = async (
     return;
   }
 
-  const { hostname } = url;
-
   const insertedEntity = {
     hostname,
     browser,
     device,
     withInteraction,
-    tsStart,
     succeeded,
-    ...(tsEnvReady && { loadingEnvDelay: tsEnvReady - tsStart }),
+    tsEnvReady,
     ...(tsPageReady && tsEnvReady && { loadingPageDelay: tsPageReady - tsEnvReady }),
     ...(tsScriptsActivated && tsNavLinksReady && { untrackedTime: tsScriptsActivated - tsNavLinksReady }),
     ...(tsScriptsActivated && tsEnvReady && { scriptActivateDelay: tsScriptsActivated - tsEnvReady }),

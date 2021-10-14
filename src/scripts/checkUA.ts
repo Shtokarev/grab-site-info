@@ -1,4 +1,4 @@
-import { browsers } from "../utils/browsers";
+import { browsers } from "../envs/browsers";
 
 export const runScriptCheckUA = async () => {
   for (const [browserName, browserModule] of browsers) {

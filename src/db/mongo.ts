@@ -1,6 +1,6 @@
 import { MongoClient, Callback, Db } from "mongodb";
 
-import { mongoDbConnectionString, mongoDbName } from "../utils";
+import { mongoDbConnectionString, mongoDbName } from "../envs/load-envs";
 
 export let db: Db | null = null;
 
