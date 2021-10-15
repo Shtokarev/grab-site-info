@@ -32,7 +32,6 @@ export const connectDb = (): Promise<Db> =>
   try {
     db = await connectDb();
   } catch (error) {
-    console.log("Error in mongo initializer:");
-    console.log(error);
+    console.log("Error in mongo initializer: ", error);
   }
 })();

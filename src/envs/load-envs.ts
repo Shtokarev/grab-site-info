@@ -21,6 +21,7 @@ export const measurements = parseInt(MEASUREMENTS || "5", 10);
 export const measurementsWithInteraction = parseInt(MEASUREMENTS_WITH_INTERACTION || "5", 10);
 export const threadNumber = parseInt(THREAD_NUMBER || "3", 10);
 
+// list of all possible values cpecified in type Devices from playwright
 export const testedDevices = [
   undefined, // desktop
   "Nexus 10",

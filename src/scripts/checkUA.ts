@@ -15,8 +15,7 @@ export const runScriptCheckUA = async () => {
       await browser.close();
       console.log(`screenshot saved successfully`);
     } catch (error) {
-      console.log("Error occur:");
-      console.log(error);
+      console.log("Error in runScriptCheckUA: ", error);
     }
   }
 };

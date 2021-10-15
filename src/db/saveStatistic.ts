@@ -36,7 +36,6 @@ export const addStatisticRecord = async (
     const statistic: Collection = db.collection(hostname);
     await statistic.insertOne(insertedEntity);
   } catch (error) {
-    console.log("Error in addStatisticRecord:");
-    console.log(error);
+    console.log("Error in addStatisticRecord: ", error);
   }
 };

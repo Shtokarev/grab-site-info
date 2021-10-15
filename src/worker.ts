@@ -18,7 +18,7 @@ const launchOptions = isDebugMode
 const RETRY_MAX = 3;
 
 const createTestEnvironmentWorker = async ({
-  thread,
+  threadId,
   browserName,
   browserContext,
   urls,
@@ -29,7 +29,7 @@ const createTestEnvironmentWorker = async ({
   let exitCode = 0;
 
   consoleLine();
-  console.log(thread, ": THREAD STARTED");
+  console.log(threadId, ": THREAD STARTED");
 
   try {
     const browserModule = browsers.get(browserName) || chromium;
@@ -39,11 +39,12 @@ const createTestEnvironmentWorker = async ({
     let context = await browser.newContext(browserContext);
     let page = await context.newPage();
 
+    // two series of tests on one environment, with interaction (click navigate link) and without
     for (const [withInteractions, counter] of [measurements, measurementsWithInteraction].entries()) {
       for (let i = 0; i < counter; i++) {
         for (const url of urls) {
           console.log(
-            `${thread} : Start checking ${url} with browser "${browserName}" and device "${deviceName}" in context...`
+            `${threadId} : Start checking ${url} with browser "${browserName}" and device "${deviceName}" in context...`
           );
 
           let retryCount = RETRY_MAX;
@@ -51,7 +52,7 @@ const createTestEnvironmentWorker = async ({
 
           while (retryCount-- && !succeeded) {
             if (!retryCount) {
-              // last chance to retry
+              // last chance to retry, reopen browser
               await browser?.close().catch(() => {});
               browser = await browserModule.launch(launchOptions);
               context = await browser.newContext(browserContext);
@@ -61,7 +62,7 @@ const createTestEnvironmentWorker = async ({
             succeeded = await checkGTMScript(
               url,
               page,
-              thread,
+              threadId,
               deviceName,
               browserName,
               !!withInteractions,
@@ -73,8 +74,7 @@ const createTestEnvironmentWorker = async ({
       }
     }
   } catch (error) {
-    console.log(thread, ": ERROR in createTestEnvironmentWorker");
-    console.log(error);
+    console.log(threadId, ": ERROR in createTestEnvironmentWorker: ", error);
     exitCode = 1;
   } finally {
     await browser?.close().catch(() => {});

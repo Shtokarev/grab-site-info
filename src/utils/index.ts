@@ -1,2 +1,2 @@
-export * from "./convertStrToFilename";
+export * from "./convertStrToValidName";
 export * from "./consoleLine";

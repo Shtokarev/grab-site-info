@@ -1,7 +1,7 @@
 import { Page } from "playwright";
 
 import { addStatisticRecord } from "../db/saveStatistic";
-import { convertStrToFilename } from "../utils";
+import { convertStrToValidName } from "../utils";
 import { timeout } from "../envs/load-envs";
 
 export const checkGTMScript = async (
@@ -56,7 +56,7 @@ export const checkGTMScript = async (
       await page.click('a[href="/help/about-us/"]', { timeout });
     }
 
-    /// check that all gtm and analytics scripts loaded and worked (gtm.load)
+    /// check that both gtm and analytics scripts loaded and worked (gtm.load event)
     await page.waitForSelector('script[src*="analytics.js"][type="text/javascript"]', {
       state: "attached",
       timeout,
@@ -79,7 +79,7 @@ export const checkGTMScript = async (
     console.log(thread, ": NON TRACKING TIME (ms): \t", tsScriptsActivated - tsNavLinksReady);
 
     if (withScreenshots) {
-      screenshotPath = convertStrToFilename(
+      screenshotPath = convertStrToValidName(
         `screenshots/${href}-${browserName}-${deviceName}-${tsEnvReady}${withInteraction ? "-navigate" : ""}`
       );
       await page.screenshot({ path: screenshotPath });
@@ -88,8 +88,7 @@ export const checkGTMScript = async (
     console.log(thread, ": finished successfully");
     succeeded = true;
   } catch (error) {
-    console.log(thread, ": Error in checkGTMScript");
-    console.log(error);
+    console.log(thread, ": Error in checkGTMScript: ", error);
 
     tsFail = Date.now();
   } finally {
